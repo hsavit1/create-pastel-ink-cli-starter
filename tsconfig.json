@@ -8,5 +8,5 @@
 		"allowJs": true,
 		"esModuleInterop": true
 	},
-	"include": ["source", "test.tsx"]
+	"include": ["source"]
 }
