@@ -15,7 +15,7 @@
 		"format:check": "prettier --check .",
 		"lint": "eslint \"**/*.{ts,tsx}\"",
 		"dev": "tsc --watch",
-		"start": "NODE_OPTIONS='--no-warnings=10571' node dist/cli.js"
+		"start": "NODE_OPTIONS='--no-warnings=10571' node dist/cli.js --raw"
 	},
 	"files": [
 		"dist"
