@@ -1,0 +1,12 @@
+{
+	"extends": "@sindresorhus/tsconfig",
+	"compilerOptions": {
+		"moduleResolution": "bundler",
+		"module": "ESNext",
+		"outDir": "dist",
+		"jsx": "react",
+		"allowJs": true,
+		"esModuleInterop": true
+	},
+	"include": ["source", "test.tsx"]
+}
