@@ -10,6 +10,8 @@
 - [zod](https://www.npmjs.com/package/zod)
 - [ink-testing-library](https://github.com/vadimdemedes/ink-testing-library)
 - [ink-ui](https://github.com/vadimdemedes/ink-ui)
+- [ink-big-text](https://github.com/vadimdemedes/ink-big-text)
+- [ink-gradient](https://github.com/vadimdemedes/ink-gradient)
 - [typescript](https://www.npmjs.com/package/typescript)
 - [ava](https://www.npmjs.com/package/ava)
 - [eslint](https://www.npmjs.com/package/eslint)
