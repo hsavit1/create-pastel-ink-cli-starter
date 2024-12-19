@@ -2,6 +2,14 @@ import React, { useState } from "react"
 import { Text, Box, useInput, useApp } from "ink"
 import { z } from "zod"
 import { option } from "pastel"
+import { clearScreen } from "ansi-escapes"
+import process from "node:process"
+import Gradient from "ink-gradient"
+import BigText from "ink-big-text"
+
+interface Props {
+	options: z.infer<typeof options>
+}
 
 export const options = z.object({
 	raw: z
@@ -14,37 +22,16 @@ export const options = z.object({
 		)
 })
 
-export type Props = {
-	options: z.infer<typeof options>
-}
-
 export default function Index({ options }: Props) {
-	// Create a state to track key press counts
-	const [keyPresses, setKeyPresses] = useState({
-		right: 0,
-		left: 0,
-		up: 0,
-		down: 0,
-		return: 0,
-		escape: 0,
-		q: 0
-	})
-
+	// Track all key presses in a Map
+	const [keyPresses, setKeyPresses] = useState<Map<string, number>>(new Map())
 	const [showExitingMessage, setShowExitingMessage] = useState(false)
-
 	const { exit } = useApp()
 
-	// Add clear function to reset all counts
-	const clearCounts = () => {
-		setKeyPresses({
-			right: 0,
-			left: 0,
-			up: 0,
-			down: 0,
-			return: 0,
-			escape: 0,
-			q: 0
-		})
+	// Clear both the screen and the key counts
+	const clearAll = () => {
+		process.stdout.write(clearScreen)
+		setKeyPresses(new Map())
 	}
 
 	useInput(
@@ -60,24 +47,29 @@ export default function Index({ options }: Props) {
 				return
 			}
 
-			// Add clear functionality
 			if (input === "c") {
-				clearCounts()
+				clearAll()
 				return
 			}
 
-			// Update key press counts
 			setKeyPresses((prev) => {
-				const updates = { ...prev }
+				const next = new Map(prev)
 
-				if (key.rightArrow) updates.right += 1
-				if (key.leftArrow) updates.left += 1
-				if (key.upArrow) updates.up += 1
-				if (key.downArrow) updates.down += 1
-				if (key.return) updates.return += 1
-				if (input === "q") updates.q += 1
+				// Handle special keys only
+				if (key.return) next.set("return", (prev.get("return") || 0) + 1)
+				else if (key.escape) next.set("escape", (prev.get("escape") || 0) + 1)
+				else if (key.leftArrow) next.set("left", (prev.get("left") || 0) + 1)
+				else if (key.rightArrow) next.set("right", (prev.get("right") || 0) + 1)
+				else if (key.upArrow) next.set("up", (prev.get("up") || 0) + 1)
+				else if (key.downArrow) next.set("down", (prev.get("down") || 0) + 1)
+				// Handle space separately
+				else if (input === " ") next.set("space", (prev.get("space") || 0) + 1)
+				// Handle regular character input only if not a special key
+				else if (input && !key.meta && !key.ctrl) {
+					next.set(input, (prev.get(input) || 0) + 1)
+				}
 
-				return updates
+				return next
 			})
 		},
 		{ isActive: options.raw }
@@ -89,14 +81,16 @@ export default function Index({ options }: Props) {
 
 	return (
 		<Box flexDirection="column">
-			<Text>Use arrow keys to move (q to quit)</Text>
-			<Text>Key Press Counts:</Text>
+			<Gradient name="rainbow">
+				<BigText text="Press Any Key" />
+			</Gradient>
+			<Text>Press any key to see count (q to quit, c to clear)</Text>
 			<Box flexDirection="column">
-				<Text>→ Right Arrow: {keyPresses.right}</Text>
-				<Text>← Left Arrow: {keyPresses.left}</Text>
-				<Text>↑ Up Arrow: {keyPresses.up}</Text>
-				<Text>↓ Down Arrow: {keyPresses.down}</Text>
-				<Text>⏎ Return: {keyPresses.return}</Text>
+				{Array.from(keyPresses.entries()).map(([key, count]) => (
+					<Text key={key}>
+						{key === " " ? "SPACE" : key.toUpperCase()}: {count}
+					</Text>
+				))}
 				{showExitingMessage && <Text>Press q again to quit</Text>}
 			</Box>
 		</Box>

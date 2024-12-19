@@ -1,4 +1,4 @@
-# hello-world CLI application with commander, ink, and pastel
+# Basic hello-world CLI application with commander, ink, and pastel
 
 > A terminal application that captures keyboard input records the key presses
 
@@ -39,22 +39,6 @@ $ npm run test
 - ASCII character output to terminal
 - Terminal screen clearing
 - Support for special keys (Q, UP, LEFT, DOWN, RETURN, etc.)
-
-## CLI
-
-```
-$ hello-world --help
-
-  Usage
-    $ hello-world
-
-  Options
-    --raw     Enable raw keyboard input mode
-
-  Examples
-    $ hello-world
-    [Starts in raw input mode, ready for keyboard input]
-```
 
 ## Key Controls
 
