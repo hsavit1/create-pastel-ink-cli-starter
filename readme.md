@@ -1,6 +1,7 @@
 # Basic CLI application with commander, ink, and pastel
 
-> A terminal application that captures keyboard input records the key presses
+> A terminal application that captures keyboard input records the key presses. 
+> Tested with ink-testing-library
 
 # Packages used
 
