@@ -1,4 +1,4 @@
-# Basic hello-world CLI application with commander, ink, and pastel
+# Basic CLI application with commander, ink, and pastel
 
 > A terminal application that captures keyboard input records the key presses
 
