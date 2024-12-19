@@ -34,6 +34,19 @@ export default function Index({ options }: Props) {
 
 	const { exit } = useApp()
 
+	// Add clear function to reset all counts
+	const clearCounts = () => {
+		setKeyPresses({
+			right: 0,
+			left: 0,
+			up: 0,
+			down: 0,
+			return: 0,
+			escape: 0,
+			q: 0
+		})
+	}
+
 	useInput(
 		(input, key) => {
 			if (!options.raw) return
@@ -44,6 +57,12 @@ export default function Index({ options }: Props) {
 					return
 				}
 				setShowExitingMessage(true)
+				return
+			}
+
+			// Add clear functionality
+			if (input === "c") {
+				clearCounts()
 				return
 			}
 
